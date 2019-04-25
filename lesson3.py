@@ -267,7 +267,96 @@ else:
 # Ввод: -2/3 - -2
 # Вывод: 1 1/3
 
-# Не хватило времени. Пришлю позже
+import math
+
+eq = input('Укажите выражение: ').split()
+lng = len(eq)
+# op - глобальный знак всей операции
+if '+' in eq:
+    pos = eq.index('+')
+    op = 1
+else:
+    pos = eq.index('-')
+    op = -1
+
+if pos == 1:
+    if '/' in eq[0]:
+        wh_1 = 0
+        dec_1 = list(map(int, eq[0].split('/')))
+        op_1 = 1
+        if dec_1[0] < 0:
+            op_1 = -1
+            dec_1[0] = (-1) * dec_1[0]
+    else:
+        wh_1 = int(eq[0])
+        op_1 = 1
+        if wh_1 < 0:
+            op_1 = -1
+            wh_1 = (-1) * wh_1
+        dec_1 = [wh_1, 1]
+
+elif pos == 2:
+    wh_1 = int(eq[0])
+    op_1 = 1
+    if wh_1 < 0:
+        op_1 = -1
+        wh_1 = (-1) * wh_1
+    dec_1 = list(map(int, eq[1].split('/')))
+    dec_1[0] = dec_1[0] + wh_1 * dec_1[1]
+if pos + 1 == lng - 1:
+    if '/' in eq[pos + 1]:
+        wh_2 = 0
+        dec_2 = list(map(int, eq[pos + 1].split('/')))
+        op_2 = 1
+        if dec_2[0] < 0:
+            op_2 = -1
+            dec_2[0] = (-1) * dec_2[0]
+    else:
+        wh_2 = int(eq[pos + 1])
+        op_2 = 1
+        if wh_2 < 0:
+            op_2 = -1
+            wh_2 = (-1) * wh_2
+        dec_2 = [wh_2, 1]
+elif pos + 1 == lng - 2:
+    wh_2 = int(eq[pos + 1])
+    op_2 = 1
+    if wh_2 < 0:
+        op_2 = -1
+        wh_2 = (-1) * wh_2
+    dec_2 = list(map(int, eq[pos + 2].split('/')))
+    dec_2[0] = dec_2[0] + wh_2 * dec_2[1]
+
+res_ch = op_1 * dec_1[0] * dec_2[1] + op * op_2 * dec_2[0] * dec_1[1]
+res_zn = dec_1[1] * dec_2[1]
+
+res_op = 1
+if res_ch < 0:
+    res_op = -1
+    res_ch = (-1) * res_ch
+
+whole_part = res_op * (res_ch // res_zn)
+part_part = res_ch % res_zn
+k = math.gcd(part_part,res_zn)
+part_part = int(part_part / k)
+res_zn = int(res_zn / k)
+
+if whole_part == 0:
+    whole_part = ''
+    if part_part == 0:
+        whole_part = '0'
+else:
+    whole_part = str(whole_part) + ' '
+if part_part == 0:
+    part_part = ''
+else:
+    part_part = str(part_part) + '/' + str(res_zn)
+
+
+result = whole_part + part_part
+
+print(result)
+
 
 
 # Задание-2:
