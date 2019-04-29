@@ -373,127 +373,37 @@ b_under_attack = False
 # Определяем класс ошибки, чтобы отлавливать неправильно введенные данные
 class ValueIntervalException(Exception):
     pass
+# Определяем класс ошибки, чтобы отлавливать уже занятые поля
+class BusyFieldException(Exception):
+    pass
+
+# Функция получает координаты от пользователя и делает все необходимые проверки
+def get_coord(chess_board, b_under_attack, num):
+    while True:
+        try:
+            x, y = map(int, input(f'Укажите координаты {num} ферзя через пробел: ').split())
+            if not 1 <= x <= 8 or not 1 <= y <= 8:
+                raise ValueIntervalException
+            if chess_board[x - 1][y - 1] == 1 or chess_board[x - 1][y - 1] == 3:
+                raise BusyFieldException
+        except ValueError:
+            print('Координаты должны быть целыми числами.')
+        except ValueIntervalException:
+            print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
+        except BusyFieldException:
+            print('Данные координаты уже заняты ферзем. Укажите другие координаты.')
+        else:
+            res = fill_board(chess_board, x, y, b_under_attack)
+            chess_board = res[0]
+            b_under_attack = res[1]
+            break
+    return [chess_board, b_under_attack]
 
 # запрашиваем координаты ферзей у пользователя
-while True:
-    try:
-        x1, y1 = map(int, input('Укажите координаты первого ферзя через пробел: ').split())
-        if not 1 <= x1 <= 8 or not 1 <= y1 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x1, y1, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x2, y2 = map(int, input('Укажите координаты второго ферзя через пробел: ').split())
-        if not 1 <= x2 <= 8 or not 1 <= y2 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x2, y2, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x3, y3 = map(int, input('Укажите координаты третьего ферзя через пробел: ').split())
-        if not 1 <= x3 <= 8 or not 1 <= y3 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x3, y3, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x4, y4 = map(int, input('Укажите координаты четвертого ферзя через пробел: ').split())
-        if not 1 <= x4 <= 8 or not 1 <= y4 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x4, y4, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x5, y5 = map(int, input('Укажите координаты пятого ферзя через пробел: ').split())
-        if not 1 <= x5 <= 8 or not 1 <= y5 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x5, y5, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x6, y6 = map(int, input('Укажите координаты шестого ферзя через пробел: ').split())
-        if not 1 <= x6 <= 8 or not 1 <= y6 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x6, y6, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x7, y7 = map(int, input('Укажите координаты седьмого ферзя через пробел: ').split())
-        if not 1 <= x7 <= 8 or not 1 <= y7 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x7, y7, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
-
-while True:
-    try:
-        x8, y8 = map(int, input('Укажите координаты восьмого ферзя через пробел: ').split())
-        if not 1 <= x8 <= 8 or not 1 <= y8 <= 8:
-            raise ValueIntervalException
-    except ValueError:
-        print('Координаты должны быть целыми числами.')
-    except ValueIntervalException:
-        print('Координаты должны быть целыми числами в диапазоне от 1 до 8.')
-    else:
-        res = fill_board(chess_board, x8, y8, b_under_attack)
-        chess_board = res[0]
-        b_under_attack = res[1]
-        break
+for num in range(8):
+    res = get_coord(chess_board, b_under_attack, num + 1)
+    chess_board = res[0]
+    b_under_attack = res[1]
 
 if b_under_attack:
     print('YES')
