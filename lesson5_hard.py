@@ -60,7 +60,7 @@ def copy_file():
     if not dir_name:
         print("Необходимо указать имя файла вторым параметром")
         return
-    lesson5_easy_lib.copy_file(dir_name)
+    lesson5_easy_lib.copy_files_or_dirs(sys.argv)
 
 def remove_file():
     if not dir_name:
