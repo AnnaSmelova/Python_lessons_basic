@@ -64,25 +64,58 @@ def copy_current_dir():
 
 
 # Функция создает копию указанного файла
-def copy_file(file_name):
+def copy_file(user_file_name):
     fsrc = os.getcwd()  # текущая директория
     dir_list = os.listdir(fsrc)  # список всех директорий в текущей директории
-    if not file_name in dir_list:
+    if not user_file_name in dir_list:
         print('Указанный файл не найден. Копирование невозможно.')
         return
-    new_name = f'{file_name}_copy'
+    file_name = user_file_name.split('/')[-1]
+    ending_file = file_name.split(".")[-1]
+    new_name = file_name.split('.')[0] + '_copy.' + ending_file
     # Если целевая директория уже существует, добавляем '_copy' в конец, чтобы создать новую копию
     while new_name in dir_list:
-        new_name = new_name + '_copy'
+        new_name = new_name.split('.')[0] + '_copy.' + ending_file
     file_path = os.path.join(fsrc, file_name)
     fdst = os.path.join(fsrc, new_name) # итоговая целевая директория
     try:
-        shutil.copytree(file_path,fdst)
+        shutil.copy(file_path,fdst)
         print(f'Файл {file_name} был успешно скопирован в файл {new_name}')
     except shutil.SameFileError:
         print('Невозможно скопировать файл сам в себя')
     except FileExistsError:
         print(f'Данный файл {new_name} уже существует')
+
+
+# Функция создает копию указанной директории
+def copy_dir(dir_name):
+    fsrc = os.getcwd()  # текущая директория
+    dir_list = os.listdir(fsrc)  # список всех директорий в текущей директории
+    if not dir_name in dir_list:
+        print('Указанная директория не найдена. Копирование невозможно.')
+        return
+    new_name = f'{dir_name}_copy'
+    # Если целевая директория уже существует, добавляем '_copy' в конец, чтобы создать новую копию
+    while new_name in dir_list:
+        new_name = new_name + '_copy'
+    file_path = os.path.join(fsrc, dir_name)
+    fdst = os.path.join(fsrc, new_name) # итоговая целевая директория
+    try:
+        shutil.copytree(file_path,fdst)
+        print(f'Директория {dir_name} была успешно скопирована в файл {new_name}')
+    except shutil.SameFileError:
+        print('Невозможно скопировать директорию саму в себя')
+    except FileExistsError:
+        print(f'Данная директория {new_name} уже существует')
+
+
+def copy_files_or_dirs(sys_argv):
+    file_name = sys_argv[2].split('/')[-1]
+    ending_file = file_name.split(".")[-1]
+    if ending_file == file_name.split('.')[0]:
+        copy_dir(file_name)
+    else:
+        copy_file(file_name)
 
 
 # Функция меняет текущую директорию на dir_name
