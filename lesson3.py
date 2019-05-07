@@ -367,7 +367,54 @@ print(result)
 # они получают удвоенную ЗП, пропорциональную норме.
 # Кол-во часов, которые были отработаны, указаны в файле "data/hours_of"
 
-# Не хватило времени. Пришлю позже
+import os
+
+current_dir = os.getcwd()
+path = os.path.join(current_dir,'lesson3_data','workers.txt')
+path2 = os.path.join(current_dir,'lesson3_data','hours_of.txt')
+f = open(path, 'r', encoding='UTF-8')
+info = []
+for line in f:
+    info.append(line.split())
+f.close()
+
+f2 = open(path2, 'r', encoding='UTF-8')
+data = []
+for line in f2:
+    data.append(line.split())
+f2.close()
+info.pop(0)
+data.pop(0)
+
+mass = [] # создаем массив: ФИО, норма час, отработано час, зп час, оклад
+for k in info:
+    for j in data:
+        if k[0] == j[0] and k[1] == j[1]:
+            fio = k[0] + ' ' + k[1]
+            zp = int(k[2]) / int(k[4])
+            el = [fio, int(k[4]), int(j[2]), zp, int(k[2])]
+    if not el in mass:
+        mass.append(el)
+
+salary = []
+salary.append(['ФИО', 'Зарплата'])
+for i in mass:
+    cur = []
+    #print(i)
+    cur.append(i[0])
+    if i[2] == i[1]: # Если норма отработана
+        cur.append(i[4])
+    elif i[2] > i[1]: # Если переработка
+        extra_hours = i[2] - i[1]
+        cur.append(i[1] * i[3] + extra_hours * 2 * i[3])
+    else: # Если недоработка
+        cur.append(round(i[2] * i[3],2))
+    salary.append(cur)
+
+for k in salary:
+    print(k)
+
+
 
 # Задание-3:
 # Дан файл ("data/fruits") со списком фруктов.
@@ -382,5 +429,39 @@ print(result)
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
 
-# Не хватило времени. Пришлю позже
+import os
 
+current_dir = os.getcwd()
+
+# Создадим папку, в которой будем хранить файлы с фруктами
+dir_path = os.path.join(current_dir, 'Fruits')
+try:
+    os.mkdir(dir_path)
+except FileExistsError:
+    pass
+
+# Открываем файл для чтения
+path = os.path.join(current_dir,'lesson3_data','fruits.txt')
+
+f = open(path, 'r', encoding='UTF-8')
+info = [line.rstrip() for line in f if line != '\n']
+f.close()
+
+d = {}
+
+for k in info:
+    letter_key = f'fruits_{k[0]}.txt'
+    if not letter_key in d.keys():
+        d[letter_key] = [k]
+    else:
+        d[letter_key].append(k)
+
+print(d)
+
+# Записываем фрукты из словаря в файлы
+for k in d.keys():
+    path_to_write = path = os.path.join(current_dir,'Fruits', k)
+    f = open(path_to_write, 'w')
+    for line in d[k]:
+        f.write(line + '\n')
+    f.close()
