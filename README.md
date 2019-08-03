@@ -1,2 +1,5 @@
-# Python_lessons_basic
-Python homeworks for GeekBrains
+# Курс Основы языка Python
+
+Homeworks
+
+Geek University: факультет Искусственного интеллекта
