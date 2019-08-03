@@ -1,5 +1,5 @@
-# Курс Основы языка Python
+## Курс Основы языка Python
 
-Homeworks
+# Homeworks
 
 Geek University: факультет Искусственного интеллекта
